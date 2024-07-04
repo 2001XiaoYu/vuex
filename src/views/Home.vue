@@ -1,35 +1,38 @@
 <template>
     <div class="home">
-        <h2>Home当前计数: {{ $store.state.counter }}</h2>
-        <h2>Computed当前计数: {{ storeCounter }}</h2>
-        <h2>Setup当前计数: {{ counter }}</h2>
-        <button @click="increment">+1</button>
+        <!-- <button @click="incrementLevel">修改Level</button> -->
+        <h2>doubleCounter: {{ doubleCounter }}</h2>
+        <h2>friendsTotalAge: {{ totalAge }}</h2>
+        <h2>message: {{ message }}</h2>
+
+        <!-- 根据id获取某一个朋友的信息 -->
+        <h2>id-111的朋友信息: {{ getFriendById(111) }}</h2>
+        <h2>id-112的朋友信息: {{ getFriendById(112) }}</h2>
     </div>
 </template>
 
 <script>
-    export default {
-        computed: {
-            storeCounter() {
-                return this.$store.state.counter
-            }
-        }
+import { mapGetters } from 'vuex'
+
+export default {
+    computed: {
+        ...mapGetters(["doubleCounter", "totalAge",]),
+        ...mapGetters(["getFriendById"])
     }
+}
 </script>
 
 <script setup>
-import { toRefs } from 'vue'
-import { useStore } from 'vuex'
+    import { computed, toRefs } from 'vue'
+    import { mapGetters, useStore } from 'vuex'
 
-const store = useStore()
-//这里拿到的数据不是响应式的,解构也不行 ，可以通过toRefs转换
-const { counter } = toRefs(store.state)
+    const store = useStore()
 
-function increment() {
-    // console.log(store.state.counter);
-    // store.state.counter++
-    store.commit("increment")
-}
+    // const { message: messageFn } = mapGetters(["message"])
+    // const message = computed(messageFn.bind({ $store: store }))
+
+    const { message } = toRefs(store.getters)
+
 </script>
 
 <style scoped></style>
