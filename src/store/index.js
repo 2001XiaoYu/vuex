@@ -1,4 +1,5 @@
 import { createStore } from "vuex"
+import { CHANGE_INFO } from "./mutation_types"
 
 const store = createStore({
     state: () => ({
@@ -39,17 +40,30 @@ const store = createStore({
         increment(state) {
             state.counter++
         },
-        changeName(state) {
-            state.name = "聂宇博"
+        changeName(state, payload) {
+            state.name = payload
+        },
+        incrementLevel(state) {
+            state.level++
+        },
+        [CHANGE_INFO](state, newInfo) {
+            state.level = newInfo.level
+            state.name = newInfo.name
+
+            //重要的原则： 不要在mutations方法中执行异步操作
+            // fetch("xxxx").then(res => {
+            //     res.json().then(res => {
+            //         state.name = res.name
+            //     })
+            // })
         }
-    },
-    // modules: {
-    //     a: {
-    //         state() {
-    //             return {}
-    //         }
-    //     }
-    // }
+    }
 })
+
+// const keyName = "name"
+
+// const obj = {
+//     [keyname]: "why"
+// }
 
 export default store
