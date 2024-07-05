@@ -49,7 +49,6 @@ const store = createStore({
         [CHANGE_INFO](state, newInfo) {
             state.level = newInfo.level
             state.name = newInfo.name
-
             //重要的原则： 不要在mutations方法中执行异步操作
             // fetch("xxxx").then(res => {
             //     res.json().then(res => {
@@ -57,8 +56,20 @@ const store = createStore({
             //     })
             // })
         }
+    },
+    actions: {
+        incrementAction(context) {
+            // console.log(context.commit)//用于提交mutation
+            // console.log(context.getters)//getters
+            // console.log(context.state)// state
+            context.commit("increment")
+        },
+        changeNameAction(context, payload) {
+            context.commit("changeName", payload)
+        }
     }
 })
+
 
 // const keyName = "name"
 

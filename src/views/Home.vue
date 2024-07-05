@@ -1,47 +1,47 @@
 <template>
-    <div class="app">
-        <button @click="changeName('聂宇博')">修改name</button>
-        <h2>Store Name: {{ $store.state.name }}</h2>
-
-        <button @click="incrementLevel">递增level</button>
-        <h2>Store Level: {{ $store.state.level }}</h2>
-
-        <button @click="changeInfo({ name: '王麻子', level: 66 })">修改信息</button>
+    <div class="home">
+        <h2>当前计数：{{ $store.state.counter }}</h2>
+        <button @click="incrementAction">发起action修改counter</button>
+        <button @click="increment">递增counter</button>
+        <button @click="changeNameAction('bbb')">发起action修改name</button>
+        <h2>name: {{ $store.state.name }}</h2>
     </div>
 </template>
 
 <script>
 
-    import { mapMutations } from 'vuex';
-    import { CHANGE_INFO } from '../store/mutation_types'
+    import { mapActions } from 'vuex';
 
-export default {
-    computed: {
-
-    },
-    methods: {
-        btnClick() {
-            console.log("btnClick");
-        },
-        // ...mapMutations(["changeName", "incrementLevel", CHANGE_INFO])
+    export default {
+        methods: {
+            // actionBtnClick() {
+            //     this.$store.dispatch("incrementAction")
+            // },
+            // nameBtnClick() {
+            //     this.$store.dispatch("changeNameAction", "kobe")
+            // }
+            // ...mapActions(["incrementAction", "changeNameAction"])
+        }
     }
-}
 </script>
 
 <script setup>
-    import { mapMutations, useStore } from 'vuex';
-    import { CHANGE_INFO } from '../store/mutation_types'
+    import { useStore, mapActions } from 'vuex';
 
     const store = useStore()
 
-    //1.手动的映射和绑定
-    const mutations = mapMutations(["changeName", "incrementLevel", CHANGE_INFO])
-    const newMutations = {}
-    Object.keys(mutations).forEach(key => {
-        newMutations[key] = mutations[key].bind({ $store: store })
-    })
-    const { changeName, incrementLevel, changeInfo } = newMutations
-    
+    //1.在setup中使用mapActions辅助函数
+    // const actions = mapActions(["incrementAction", "changeNameAction"])
+    // const newActions = {}
+    // Object.keys(actions).forEach(key => {
+    //     newActions[key] = actions[key].bind({ $store: store })
+    // })
+    // const { incrementAction, changeNameAction } = newActions
+
+    //2.使用默认的做法
+    function increment() {
+        store.dispatch("incrementAction")
+    }
 </script>
 
 <style scoped></style>
