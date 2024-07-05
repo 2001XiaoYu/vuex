@@ -3,6 +3,7 @@ import { CHANGE_INFO } from "./mutation_types"
 
 const store = createStore({
     state: () => ({
+        // 模拟的数据
         counter: 100,
         name: "patrick",
         level: 100,
@@ -11,7 +12,11 @@ const store = createStore({
             { id: 111, name: "why", age: 20 },
             { id: 112, name: "kobe", age: 30 },
             { id: 113, name: "james", age: 40 },
-        ]
+        ],
+
+        // 服务器数据
+        banners: [],
+        recommends: []
     }),
     getters: {
         //1.基本使用
@@ -55,6 +60,12 @@ const store = createStore({
             //         state.name = res.name
             //     })
             // })
+        },
+        changeBanners(state, banners) {
+            state.banners = banners
+        },
+        changeRecommends(state, recommends) {
+            state.recommends = recommends
         }
     },
     actions: {
@@ -66,6 +77,30 @@ const store = createStore({
         },
         changeNameAction(context, payload) {
             context.commit("changeName", payload)
+        },
+        async fetchHomeMultidataAction(context) {
+            //1.返回Promise，给Promise设置then
+            // fetch("http://123.207.32.32:8000/home/multidata").then(res => {
+            //     res.json().then(data => {
+            //         console.log(data);
+            //     })
+            // })
+
+            //2.Promise链式调用
+            // fetch("http://123.207.32.32:8000/home/multidata").then(res => {
+            //     return res.json()
+            // }).then(data => {
+            //     console.log(data)
+            // })
+
+            //3.await/async
+            const res = await fetch("http://123.207.32.32:8000/home/multidata")
+            const data = await res.json()
+            console.log(data)
+
+            context.commit("changeBanners", data.data.banner.list)
+            context.commit("changeRecommends", data.data.recommend.list)
+            
         }
     }
 })

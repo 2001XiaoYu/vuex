@@ -1,47 +1,32 @@
 <template>
     <div class="home">
-        <h2>当前计数：{{ $store.state.counter }}</h2>
-        <button @click="incrementAction">发起action修改counter</button>
-        <button @click="increment">递增counter</button>
-        <button @click="changeNameAction('bbb')">发起action修改name</button>
-        <h2>name: {{ $store.state.name }}</h2>
+        <h2>Home Page</h2>
+        <ul>
+            <template v-for="item in $store.state.banners" :key="item.acm">
+                <li>{{ item.title }}</li>
+            </template>
+            <hr>
+            <template v-for="item in $store.state.recommends" :key="item.acm">
+                <li>{{ item.title }}</li>
+            </template>
+        </ul>
     </div>
 </template>
 
 <script>
 
-    import { mapActions } from 'vuex';
-
-    export default {
-        methods: {
-            // actionBtnClick() {
-            //     this.$store.dispatch("incrementAction")
-            // },
-            // nameBtnClick() {
-            //     this.$store.dispatch("changeNameAction", "kobe")
-            // }
-            // ...mapActions(["incrementAction", "changeNameAction"])
-        }
-    }
 </script>
 
 <script setup>
-    import { useStore, mapActions } from 'vuex';
+    import { useStore } from 'vuex'
 
-    const store = useStore()
+   //告诉Vuex发起网络请求
+   const store = useStore()
 
-    //1.在setup中使用mapActions辅助函数
-    // const actions = mapActions(["incrementAction", "changeNameAction"])
-    // const newActions = {}
-    // Object.keys(actions).forEach(key => {
-    //     newActions[key] = actions[key].bind({ $store: store })
-    // })
-    // const { incrementAction, changeNameAction } = newActions
+   store.dispatch("fetchHomeMultidataAction").then(res => {
+    console.log("home中的then被回调:", res)
+   })
 
-    //2.使用默认的做法
-    function increment() {
-        store.dispatch("incrementAction")
-    }
 </script>
 
 <style scoped></style>
