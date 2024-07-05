@@ -34,9 +34,13 @@ const store = createStore({
             }
         }
     },
+    //
     mutations: {
         increment(state) {
             state.counter++
+        },
+        changeName(state) {
+            state.name = "聂宇博"
         }
     },
     // modules: {
