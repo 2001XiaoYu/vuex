@@ -4,7 +4,7 @@
         <!-- 1.使用state时，是需要state.moduleName.xxx -->
         <h2>Counter模块的counter: {{ $store.state.counter.count }}</h2>
         <!-- 2.使用getters时，是直接getters.xxx -->
-        <h2>Counter模块的doubleCounter: {{ $store.getters["counter/doubleCount"] }}</h2>
+        <h2>Counter模块的doubleCounter: {{ $store.getters.doubleCount }}</h2>
 
         <button @click="incrementCount">count模块+1</button>
     </div>
@@ -22,7 +22,7 @@ import { useStore } from 'vuex'
     //派发事件时，，默认也是不需要跟模块名称
     //提交mutation时，默认也是不需要跟模块名称
     function incrementCount() {
-        store.dispatch("counter/incrementCountAction")
+        store.dispatch("incrementCountAction")
     }
 
 </script>
